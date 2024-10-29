@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快樂旅遊網</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.css">
+    <script src="jquery/jquery.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a class="home" href="msg.html">快樂旅遊網</a>
+            <a href="msg.html">訪客留言</a>
+            <a href="order.html">訪客訂餐</a>
+            <a href="booking.html">訪客訂房</a>
+            <a href="manage.html">網站管理</a>
+        </nav>
+        <input type="checkbox" id="ham-menu" style="display: none;">
+        <label for="ham-menu" class="ham-menu">|||</label>
+        <div class="ham-nav">
+            <a href="msg.html">快樂旅遊網</a>
+            <a href="msg.html">訪客留言</a>
+            <a href="order.html">訪客訂餐</a>
+            <a href="booking.html">訪客訂房</a>
+            <a href="manage.html">網站管理</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="msg-list">
+            <nav>
+                <h3>訪客留言列表</h3>
+                <button onclick="toggledisplay('.msg-list,.msg-edit','.msg-add')">新增留言</button>
+            </nav>
+            <table id="msg-table">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>信箱</th>
+                        <th>電話</th>
+                        <th>序號</th>
+                        <th>內容</th>
+                        <th>圖片</th>
+                        <th>發表時間</th>
+                        <th>編輯時間</th>
+                        <th>刪除時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="msg-list">
+
+                </tbody>
+            </table>
+        </section>
+
+        <section class="msg-add hidden">
+            <nav>
+                <h3>訪客留言-新增</h3>
+                <button onclick="toggledisplay('.msg-add,.msg-edit','.msg-list')">回留言列表</button>
+            </nav>
+            <form id="msg-form" onsubmit="return submitForm(event);">
+                <label for="name">姓名：</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">信箱：</label>
+                <input type="email" id="email" name="email" required>
+                <label for="telephone">電話：</label>
+                <input type="text" id="telephone" name="telephone" required>
+                <label for="content">留言內容：</label>
+                <textarea name="content" id="content" required></textarea>
+                <label for="serial_number">留言序號:</label>
+                <input type="text" id="serial_number" name="serial_number" required maxlength="">
+                <label for="image">圖片：</label>
+                <input type="file" name="image" required>
+                <br>
+                <label for="show_email">顯示信箱：</label>
+                <input type="checkbox" id="show-email" name="show_email">
+                <br>
+                <label for="show_telephone">顯示電話：</label>
+                <input type="checkbox" id="show-telephone" name="show_telephone">
+                <button type="submit">提交</button>
+            </form>
+        </section>
+
+        <section class="msg-edit hidden">
+            <nav>
+                <h3>訪客留言-編輯</h3>
+                <button onclick="toggledisplay('.msg-add,.msg-edit','.msg-list')">回留言列表</button>
+            </nav>
+            <form id="msg-edit-form" onsubmit="return updateForm(event);">
+                <label for="name">姓名：</label>
+                <input type="text" name="name" required>
+                <label for="email">信箱：</label>
+                <input type="email" name="email">
+                <label for="telephone">電話：</label>
+                <input type="text" name="telephone">
+                <label for="content">留言內容：</label>
+                <textarea name="content" required></textarea>
+                <label for="image">圖片：</label>
+                <input type="file" name="image">
+                <label for="show-email">顯示信箱：</label>
+                <input type="checkbox" name="show-email">
+                <label for="show-telephone">顯示電話：</label>
+                <input type="checkbox" name="show-telephone">
+                <button type="submit">更新</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        $(document).ready(() => {
+            fetchMsgList();
+        });
+
+        function fetchMsgList() {
+            fetch("api/msg-list.php")
+                .then(response => response.json())
+                .then(data => {
+                    let msgList = $("#msg-list");
+                    msgList.empty();
+                    data.forEach(item => {
+                        let showEmail = item["show_email"] === "1" ? item["email"] : "";
+                        let showTelephone = item["show_telephone"] === "1" ? item["telephone"] : "";
+                        let imageTag = item["image"] ? `<img src="data:image/jpeg;base64,${item["image"]}" alt="Image" />` : '';
+                        msgList.append(`
+                            <tr>
+                                <td>${item["name"]}</td>
+                                <td>${showEmail}</td>
+                                <td>${showTelephone}</td>
+                                <td>${item["serial_number"]}</td>
+                                <td>${item["content"]}</td>
+                                <td>${imageTag}</td>
+                                <td>${item["issus_time"]}</td>
+                                <td>${item["edit_time"]}</td>
+                                <td>${item["delete_time"]}</td>
+                                <td>
+                                    <button onclick="editMessage(${item['id']})">編輯</button>
+                                    <button onclick="deleteMessage(${item['id']})">刪除</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                })
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            const form = event.target;
+            console.log(form)
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            if (!validateEmail(email)) {
+                alert('請輸入有效的 email 地址！');
+                return false;
+            }
+            fetch('api/msg-add.php', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    form.reset();
+                    toggledisplay('.msg-add,.msg-edit', '.msg-list');
+                    fetchMsgList();
+                })
+
+            return false;
+        }
+
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function editMessage(id) {
+            fetch(`api/msg-edit.php?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const form = $('#msg-edit-form')[0];
+                    form.elements['id'].value = data.id;
+                    form.elements['name'].value = data.name;
+                    form.elements['email'].value = data.email;
+                    form.elements['telephone'].value = data.telephone;
+                    form.elements['content'].value = data.content;
+                    form.elements['show_email'].checked = data['show_email'] == 1;
+                    form.elements['show_telephone'].checked = data['show_telephone'] == 1;
+                    toggledisplay('.msg-list,.msg-add', '.msg-edit');
+                });
+        }
+
+
+        function updateForm(event) {
+            event.preventDefault();
+            const form = $('#msg-edit-form')[0];
+            const formData = new FormData(form);
+            fetch('api/msg-edit.php', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    form.reset();
+                    toggledisplay('.msg-add,.msg-edit', '.msg-list');
+                    fetchMsgList();
+                })
+
+            return false;
+        }
+
+        function deleteMessage(id) {
+            if (confirm('確定要刪除這條留言嗎？')) {
+                fetch('api/msg-del.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: id }),
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        alert(data);
+                        fetchMsgList();
+                    })
+                }
+        }
+
+    </script>
+    <script src="js/main.js"></script>
+    <script src="bootstrap/bootstrap.js"></script>
+</body>
+
+</html>
