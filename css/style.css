@@ -5,19 +5,26 @@ body {
     padding: 0;
     overflow-x: hidden;
 }
+
 /* media */
 @media screen and (max-width: 780px) {
-    .msg-add,.msg-edit,.msg-list{
+
+    .msg-add,
+    .msg-edit,
+    .msg-list {
         margin: 2em auto;
         padding: 2em;
     }
-    header>nav{
+
+    header>nav {
         display: none;
     }
-    .home{
+
+    .home {
         display: block;
     }
-  }
+}
+
 /* header */
 header {
     position: relative;
@@ -31,7 +38,8 @@ header {
     align-items: center;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 
-    & a,.home{
+    & a,
+    .home {
         font-size: 1.5em;
         text-wrap: nowrap;
         padding: 1rem;
@@ -40,7 +48,9 @@ header {
         color: #9D9D9D;
         font-weight: 700;
     }
-    & a:hover,.home:hover{
+
+    & a:hover,
+    .home:hover {
         color: rgb(185, 185, 185);
         text-decoration: none;
     }
@@ -75,16 +85,19 @@ header {
 }
 
 #ham-menu:checked {
-    &~.ham-menu{
+    &~.ham-menu {
         transform: rotate(0) scale(2);
     }
-    &~.ham-nav{
+
+    &~.ham-nav {
         display: flex;
     }
-}    
+}
 
 /* mas-form */
-.msg-add,.msg-edit,.msg-list{
+.msg-add,
+.msg-edit,
+.msg-list {
     max-width: 80%;
     margin: 2em auto;
     padding: 2em;
@@ -92,16 +105,18 @@ header {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 
-    &>form>button{
+    &>form>button {
         color: #f4f4f4;
         border: 0;
         background-color: gray;
         border-radius: .2em;
     }
-    &>nav{
+
+    &>nav {
         display: flex;
         justify-content: center;
-        &>button{
+
+        &>button {
             font-size: 1.1em;
             border: 0;
             color: #f4f4f4;
@@ -110,16 +125,19 @@ header {
             margin: .3em;
             letter-spacing: 1.5px;
             background-color: #9D9D9D;
-        }        
+        }
     }
 }
-::file-selector-button{
+
+
+::file-selector-button {
     background-color: #8e8e8e;
-    color:white;
+    color: white;
     font-weight: 700;
     border: 0;
     border-radius: .2em;
 }
+
 form input[type="text"],
 form input[type="email"],
 form input[type="tel"],
@@ -150,12 +168,17 @@ form textarea {
 
 /* msg-list */
 
-.msg-list{
-    & img{
+.msg-list {
+    & img {
         width: 300px;
     }
-}
-    /* hidden */
-    .hidden {
-        display: none ;
+    & td {
+        border: 2px black solid;
     }
+    
+}
+
+/* hidden */
+.hidden {
+    display: none;
+}

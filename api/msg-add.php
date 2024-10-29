@@ -16,12 +16,11 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     $base64_image = base64_encode($image_data);
 }
 $sql = "INSERT INTO `message` (`name`, email, telephone, serial_number, content, `image`, issus_time, edit_time, delete_time, `show_email`, `show_telephone`) 
-VALUES ($name, $email, $telephone, $serial_number, $content, $base64_image,$issus_time,'','',$show_telephone, $show_telephone,)";
-// $stmt = $conn->prepare($sql);
-$conn->exec($sql);
+VALUES ("$name", "$email", "$telephone", "$serial_number", "$content", "$base64_image","$issus_time",'','',"$show_telephone", "$show_telephone")";
+$stmt = $conn->prepare($sql);
 
-// if ($stmt->execute()) {
-//     echo "留言已成功新增！";
-// } else {
-//     echo "留言新增失敗！";
-// }
+if ($stmt->execute()) {
+    echo "留言已成功新增！";
+} else {
+    echo "留言新增失敗！";
+}

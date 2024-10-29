@@ -36,24 +36,7 @@
                 <h3>訪客留言列表</h3>
                 <button onclick="toggledisplay('.msg-list,.msg-edit','.msg-add')">新增留言</button>
             </nav>
-            <table id="msg-table">
-                <thead>
-                    <tr>
-                        <th>姓名</th>
-                        <th>信箱</th>
-                        <th>電話</th>
-                        <th>序號</th>
-                        <th>內容</th>
-                        <th>圖片</th>
-                        <th>發表時間</th>
-                        <th>編輯時間</th>
-                        <th>刪除時間</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="msg-list">
-
-                </tbody>
+            <table id="msg-list">
             </table>
         </section>
 
@@ -72,9 +55,9 @@
                 <label for="content">留言內容：</label>
                 <textarea name="content" id="content" required></textarea>
                 <label for="serial_number">留言序號:</label>
-                <input type="text" id="serial_number" name="serial_number" required maxlength="">
+                <input type="text" id="serial_number" name="serial_number" required maxlength="3">
                 <label for="image">圖片：</label>
-                <input type="file" name="image" required>
+                <input type="file" name="image" >
                 <br>
                 <label for="show_email">顯示信箱：</label>
                 <input type="checkbox" id="show-email" name="show_email">
@@ -127,19 +110,22 @@
                         let imageTag = item["image"] ? `<img src="data:image/jpeg;base64,${item["image"]}" alt="Image" />` : '';
                         msgList.append(`
                             <tr>
-                                <td>${item["name"]}</td>
+                                <td rowspan="2">${imageTag}</td>
+                                <td rowspan="1" colspan="1">${item["name"]}</td>
+                                <td rowspan="1" colspan="1">${item["content"]}</td>
                                 <td>${showEmail}</td>
                                 <td>${showTelephone}</td>
-                                <td>${item["serial_number"]}</td>
-                                <td>${item["content"]}</td>
-                                <td>${imageTag}</td>
                                 <td>${item["issus_time"]}</td>
-                                <td>${item["edit_time"]}</td>
-                                <td>${item["delete_time"]}</td>
+                                <td class="hidden">${item["edit_time"]}</td>
+                                <td class="hidden">${item["delete_time"]}</td>
+                                <td colspan="2">                                
+                                    <input type="text" id="${item["serial_number"]}">
+                                </td>
                                 <td>
                                     <button onclick="editMessage(${item['id']})">編輯</button>
                                     <button onclick="deleteMessage(${item['id']})">刪除</button>
-                                </td>
+                                    </td>        
+                                    <tr></tr>
                             </tr>
                         `);
                     });
@@ -149,8 +135,8 @@
         function submitForm(event) {
             event.preventDefault();
             const form = event.target;
-            console.log(form)
             const formData = new FormData(form);
+            console.log([...formData])
             const email = formData.get('email');
             if (!validateEmail(email)) {
                 alert('請輸入有效的 email 地址！');
@@ -162,6 +148,7 @@
             })
                 .then(response => response.text())
                 .then(data => {
+                    console.log(data)
                     alert(data);
                     form.reset();
                     toggledisplay('.msg-add,.msg-edit', '.msg-list');
@@ -226,7 +213,7 @@
                         alert(data);
                         fetchMsgList();
                     })
-                }
+            }
         }
 
     </script>
