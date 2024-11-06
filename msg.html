@@ -57,7 +57,7 @@
                 <label for="serial_number">留言序號:</label>
                 <input type="text" id="serial_number" name="serial_number" required maxlength="3">
                 <label for="image">圖片：</label>
-                <input type="file" name="image" >
+                <input type="file" name="image">
                 <br>
                 <label for="show_email">顯示信箱：</label>
                 <input type="checkbox" id="show-email" name="show_email">
@@ -108,6 +108,12 @@
                         let showEmail = item["show_email"] === "1" ? item["email"] : "";
                         let showTelephone = item["show_telephone"] === "1" ? item["telephone"] : "";
                         let imageTag = item["image"] ? `<img src="data:image/jpeg;base64,${item["image"]}" alt="Image" />` : '';
+                        let tr = document.createElement("tr")
+                        tr.id = a
+                        let td = document.createElement("td")
+                        td.id =123
+                        tr.appendChild(td)
+                        msgList.appendChild(tr)
                         msgList.append(`
                             <tr>
                                 <td rowspan="2">${imageTag}</td>
