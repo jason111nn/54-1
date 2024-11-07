@@ -30,10 +30,18 @@
         </div>
     </header>
     <main>
-        
+        <div class="calendar">
+            <div class="calendar-header">
+                <button onclick="prevMonth()">上一個月</button>
+                <span id="currentMonthYear"></span>
+                <button onclick="nextMonth()">下一個月</button>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+        </div>
     </main>
 </body>
 <script src="js/main.js"></script>
+<script src="js/booking.js"></script>
 <script src="jquery/jquery.js"></script>
 <script src="jquery/jquery-ui.js"></script>
 <script src="jquery/jquery-ui.min.js"></script>

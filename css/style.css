@@ -16,35 +16,6 @@ main{
     display: flex;
 }
 
-/* media */
-@media screen and (min-width: 1024px) {
-    .order-main{
-        grid-template-columns: repeat(2, 1fr); /* 設置 2 列 */
-    }
-}
-@media screen and (min-width: 800px) {
-    .order-main{
-        grid-template-columns: repeat(1, 1fr); /* 設置 2 列 */
-    }
-}
-@media screen and (min-width: 780px) {
-
-    .msg-add,
-    .msg-edit,
-    .msg-list {
-        margin: 2em auto;
-        padding: 2em;
-    }
-
-    header>nav {
-        display: none;
-    }
-
-    .home {
-        display: block;
-    }
-}
-
 /* header */
 header {
     position: relative;
@@ -218,4 +189,33 @@ form textarea {
     &>img{
         height: 100%;
     }
+}
+/* booking */
+.calendar {
+    display: inline-block;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.calendar-header button {
+    padding: 5px 10px;
+}
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.day {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+.day-header {
+    font-weight: bold;
+    color: #555;
 }
