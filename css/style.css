@@ -17,19 +17,17 @@ main{
 }
 
 /* media */
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1024px) {
     .order-main{
-        display: grid;
         grid-template-columns: repeat(2, 1fr); /* 設置 2 列 */
     }
 }
-@media screen and (max-width: 800px) {
+@media screen and (min-width: 800px) {
     .order-main{
-        display: grid;
         grid-template-columns: repeat(1, 1fr); /* 設置 2 列 */
     }
 }
-@media screen and (max-width: 780px) {
+@media screen and (min-width: 780px) {
 
     .msg-add,
     .msg-edit,
@@ -174,7 +172,6 @@ form textarea {
     font-size: 1em;
 }
 
-
 .custom-file-label {
     display: inline-block;
     padding: 0.75em 1.5em;
@@ -208,7 +205,6 @@ form textarea {
 .order-main{
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 設置 2 列 */
-    grid-template-rows: repeat(5, auto);  /* 設置 5 行 */
 }
 .order-img{
     cursor: pointer;
