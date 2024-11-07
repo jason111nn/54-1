@@ -1,0 +1,5 @@
+/* opacity */
+
+function OpacityUp(UP) {
+
+}

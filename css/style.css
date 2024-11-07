@@ -1,12 +1,34 @@
 body {
-    background-color: #f4f4f4;
+    background: #f4f4f4;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    min-width: 100vh;
+    display: grid;
+    background-image: url("../img/background.jpg");
+    backdrop-filter: blur(5px);
+    height: 100vh;
+    place-items: center;
+}
+main{
+    width: 100%;
+    display: flex;
 }
 
 /* media */
+@media screen and (max-width: 1024px) {
+    .order-main{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 設置 2 列 */
+    }
+}
+@media screen and (max-width: 800px) {
+    .order-main{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); /* 設置 2 列 */
+    }
+}
 @media screen and (max-width: 780px) {
 
     .msg-add,
@@ -29,9 +51,12 @@ body {
 header {
     position: relative;
     z-index: 400;
-    width: 100vw;
+    margin: 5px;
+    border-radius: 10px;
+    width: 80vw;
     height: 6em;
-    background-color: #6C6C6C;
+    background: linear-gradient(to right,rgb(255, 223, 228) ,skyblue);
+    backdrop-filter: blur(2px);
     padding: 2em;
     display: flex;
     justify-content: center;
@@ -45,7 +70,7 @@ header {
         padding: 1rem;
         border-radius: 10px;
         transition: all .2s;
-        color: #9D9D9D;
+        color: grey;
         font-weight: 700;
     }
 
@@ -76,10 +101,9 @@ header {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #6C6C6C;
-    border-radius: 0 0 0 10px;
+    background: linear-gradient(to top,rgb(255, 223, 228) ,skyblue);
+    border-radius: 10px;
     position: absolute;
-    right: 0;
     top: 6em;
     padding: 1em;
 }
@@ -163,9 +187,6 @@ form textarea {
     text-align: center;
 }
 
-/*  */
-
-
 /* msg-list */
 
 .msg-list {
@@ -181,4 +202,24 @@ form textarea {
 /* hidden */
 .hidden {
     display: none;
+}
+
+/* order */
+.order-main{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 設置 2 列 */
+    grid-template-rows: repeat(5, auto);  /* 設置 5 行 */
+}
+.order-img{
+    cursor: pointer;
+    width: 15em;
+    height: 15em;
+    margin: 20px auto;
+    overflow: hidden;
+    border: skyblue 2px solid;
+    box-shadow: 0 0 2px 5px sky;
+    border-radius: 20px;
+    &>img{
+        height: 100%;
+    }
 }
